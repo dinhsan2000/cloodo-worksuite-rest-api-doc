@@ -1,0 +1,170 @@
+openapi: 3.1.0
+servers:
+  - url: "https://erp.cloodo.com/api"
+info:
+  description: |
+    Cloodo WorkSuite REST API Doc.
+
+    # Authentication
+    Cloodo WorkSuite offers two forms of authentication:
+      - Bearer Token
+
+    <SecurityDefinitions />
+
+  version: 1.0.0
+  title: "Cloodo WorkSuite Rest API"
+tags:
+  # - name: User
+  - name: Company
+paths:
+  # /users:
+  #   get:
+  #     tags:
+  #       - User
+  /v1/company:
+    get:
+      tags:
+        - Company
+      operationId: getCompanyV1
+      summary: Get Company By User
+      responses:
+        "200":
+          description: "Application data fetched successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V1CompanyResponseGetShow"
+      security:
+        - BearerToken: []
+components:
+  securitySchemes:
+    BearerToken:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    V1CompanyResponseGetShow:
+      type: "object"
+      properties:
+        data:
+          type: "array"
+          items:
+            type: "object"
+            properties:
+              id:
+                type: integer
+                example: 1
+              company_name:
+                type: string
+                example: Worksuite Demo Company
+              company_email:
+                type: string
+                example: admin@example.com
+              company_phone:
+                type: string
+                example: 517-966-5663
+              logo:
+                type: string
+                example: dff2157dfa4f1e59e00fba4782212a13.png
+              login_background:
+                type: string
+                example: null,
+              address:
+                type: string
+                example: "4868  Ben Street Lansing Michigan 48906"
+              website:
+                type: string
+                example: "http://abc.com"
+              currency_id:
+                type: integer
+                example: 5
+              package_id:
+                type: integer
+                example: 1
+              package_type:
+                type: string
+                example: "monthly"
+              timezone:
+                type: string
+                example: "Asia/Ho_Chi_Minh"
+              date_format:
+                type: string
+                example: "d-m-Y"
+              date_picker_format:
+                type: string
+                example: "dd-mm-yyyy"
+              moment_format:
+                type: string
+                example: "DD-MM-YYYY"
+              time_format:
+                type: string
+                example: "H:i"
+              week_start:
+                type: integer
+                example: 1
+              locale:
+                type: string
+                example: "en"
+              latitude:
+                type: string
+                example: null
+              longitude:
+                type: string
+                example: null
+              leaves_start_from:
+                type: string
+                example: "joining_date"
+              active_theme:
+                type: string
+                example: "default"
+              status:
+                type: string
+                example: "active"
+              task_self:
+                type: string
+                example: "yes"
+              last_updated_by:
+                type: integer
+                example: 2
+              licence_expire_on:
+                type: string
+                example: null
+              rounded_theme:
+                type: integer
+                example: 1
+              last_login:
+                type: string
+                example: "2023-01-12T14:36:40+07:00"
+              default_task_status:
+                type: string
+                example: null
+              show_update_popup:
+                type: integer
+                example: 1
+              dashboard_clock:
+                type: integer
+                example: 1
+              ticket_form_google_captcha:
+                type: integer
+                example: 0
+              lead_form_google_captcha:
+                type: integer
+                example: 0
+              rtl:
+                type: integer
+                example: 0
+              logo_url:
+                type: string
+                example: "https://erp.cloodo.com/user-uploads/app-logo/dff2157dfa4f1e59e00fba4782212a13.png"
+              login_background_url:
+                type: string
+                example: "https://erp.cloodo.com/img/login-bg.jpg"
+              moment_date_format:
+                type: string
+                example: "DD-MM-YYYY"
+        message:
+          type: "string"
+          description: "Application data fetched successfully"
+          example: "Application data fetched successfully"
+      xml:
+        name: "V1CompanyResponseGetShow"
