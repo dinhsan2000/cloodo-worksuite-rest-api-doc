@@ -1,170 +1,4251 @@
 openapi: 3.1.0
-servers:
-  - url: "https://erp.cloodo.com/api"
 info:
   description: |
-    Cloodo WorkSuite REST API Doc.
+    WorkSuite REST API Doc.
 
     # Authentication
-    Cloodo WorkSuite offers two forms of authentication:
+    WorkSuite offers two forms of authentication:
       - Bearer Token
 
     <SecurityDefinitions />
 
-  version: 1.0.0
-  title: "Cloodo WorkSuite Rest API"
+  title: "WorkSuite Rest API"
+  contact:
+    name: Support
+    email: support@cloodo.com
+
+  version: 1.0.1
+servers:
+  - url: https://erp2.cloodo.com/api/v3
 tags:
-  # - name: User
-  - name: Company
+  - name: Auth
+  - name: Attendance
+  - name: Companies
+  - name: Contracts
+  - name: Contract Types
+  - name: Clients
+  - name: Countries
+  - name: Currencies
+  - name: Departments
+  - name: Designations
+  - name: Employees
+  - name: Estimates
+  - name: Events
+  - name: Expenses
+  - name: Expenses Recurrings
+  - name: Holidays
+  - name: Invoices
+  - name: Invoice Recurrings
+  - name: KnowledgeBase
+  - name: Category
+  - name: Languages
+  - name: Leads
+  - name: Lead Agents
+  - name: Lead Source
+  - name: Lead Category
+  - name: Lead Status
+  - name: Leaves
+  - name: Leave Type
+  - name: Notice
+  - name: Payments
+  - name: Products
+  - name: Projects
+  - name: Proposals
+  - name: Task
 paths:
-  # /users:
-  #   get:
-  #     tags:
-  #       - User
-  /v1/company:
-    get:
+  /v3/accounts/register:
+    post:
       tags:
-        - Company
-      operationId: getCompanyV1
-      summary: Get Company By User
+        - Auth
+      summary: accounts/register
+      description: accounts/register
+      operationId: accountsRegister
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - email
+                - password
+                - website
+              properties:
+                email:
+                  type: string
+                  required: true
+                name:
+                  type: string
+                  required: true
+                address:
+                  type: string
+                  required: true
+                password:
+                  type: string
+                  required: true
+                website:
+                  type: string
+                  required: true
+            example:
+              address: HN
+              email: admin@example.com
+              name: Demo Company
+              password: "12345678"
+              website: cloodo.com
       responses:
         "200":
-          description: "Application data fetched successfully"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/V1CompanyResponseGetShow"
-      security:
-        - BearerToken: []
-components:
-  securitySchemes:
-    BearerToken:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
-  schemas:
-    V1CompanyResponseGetShow:
-      type: "object"
-      properties:
-        data:
-          type: "array"
-          items:
-            type: "object"
-            properties:
-              id:
-                type: integer
-                example: 1
-              company_name:
-                type: string
-                example: Worksuite Demo Company
-              company_email:
-                type: string
-                example: admin@example.com
-              company_phone:
-                type: string
-                example: 517-966-5663
-              logo:
-                type: string
-                example: dff2157dfa4f1e59e00fba4782212a13.png
-              login_background:
-                type: string
-                example: null,
-              address:
-                type: string
-                example: "4868  Ben Street Lansing Michigan 48906"
-              website:
-                type: string
-                example: "http://abc.com"
-              currency_id:
-                type: integer
-                example: 5
-              package_id:
-                type: integer
-                example: 1
-              package_type:
-                type: string
-                example: "monthly"
-              timezone:
-                type: string
-                example: "Asia/Ho_Chi_Minh"
-              date_format:
-                type: string
-                example: "d-m-Y"
-              date_picker_format:
-                type: string
-                example: "dd-mm-yyyy"
-              moment_format:
-                type: string
-                example: "DD-MM-YYYY"
-              time_format:
-                type: string
-                example: "H:i"
-              week_start:
-                type: integer
-                example: 1
-              locale:
-                type: string
-                example: "en"
-              latitude:
-                type: string
-                example: null
-              longitude:
-                type: string
-                example: null
-              leaves_start_from:
-                type: string
-                example: "joining_date"
-              active_theme:
-                type: string
-                example: "default"
-              status:
-                type: string
-                example: "active"
-              task_self:
-                type: string
-                example: "yes"
-              last_updated_by:
-                type: integer
-                example: 2
-              licence_expire_on:
-                type: string
-                example: null
-              rounded_theme:
-                type: integer
-                example: 1
-              last_login:
-                type: string
-                example: "2023-01-12T14:36:40+07:00"
-              default_task_status:
-                type: string
-                example: null
-              show_update_popup:
-                type: integer
-                example: 1
-              dashboard_clock:
-                type: integer
-                example: 1
-              ticket_form_google_captcha:
-                type: integer
-                example: 0
-              lead_form_google_captcha:
-                type: integer
-                example: 0
-              rtl:
-                type: integer
-                example: 0
-              logo_url:
-                type: string
-                example: "https://erp.cloodo.com/user-uploads/app-logo/dff2157dfa4f1e59e00fba4782212a13.png"
-              login_background_url:
-                type: string
-                example: "https://erp.cloodo.com/img/login-bg.jpg"
-              moment_date_format:
-                type: string
-                example: "DD-MM-YYYY"
-        message:
-          type: "string"
-          description: "Application data fetched successfully"
-          example: "Application data fetched successfully"
-      xml:
-        name: "V1CompanyResponseGetShow"
+          description: "Created Successfully"
+  /accounts/login:
+    post:
+      tags:
+        - Auth
+      summary: accounts/login
+      description: accounts/login
+      operationId: accountsLogin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: admin@example.com
+                  required: true
+                password:
+                  type: string
+                  example: "123456"
+                  required: true
+            example:
+              email: admin@example.com
+              password: "123456"
+      responses:
+        "200":
+          description: ""
+  /accounts/refresh:
+    post:
+      tags:
+        - Auth
+      summary: accounts/refresh
+      description: accounts/refresh
+      operationId: accountsRefresh
+      responses:
+        "200":
+          description: ""
+  /accounts:
+    get:
+      tags:
+        - Auth
+      summary: accounts
+      description: accounts
+      operationId: accounts
+      responses:
+        "200":
+          description: ""
+  /accounts/logout:
+    post:
+      tags:
+        - Auth
+      summary: accounts/logout
+      description: accounts/logout
+      operationId: accountsLogout
+      responses:
+        "200":
+          description: ""
+  /attendances:
+    get:
+      tags:
+        - Attendance
+      summary: attendances
+      description: attendances
+      operationId: attendances
+      parameters:
+        - name: late
+          in: query
+          schema:
+            type: string
+            example: all
+        - name: department
+          in: query
+          schema:
+            type: string
+            example: all
+        - name: designation
+          in: query
+          schema:
+            type: string
+            example: all
+        - name: userId
+          in: query
+          schema:
+            type: string
+            example: all
+      responses:
+        "200":
+          description: ""
+    post:
+      tags:
+        - Attendance
+      summary: attendances
+      description: attendances
+      operationId: attendances1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - user_id
+                - clock_in_time
+                - clock_out_time
+                - working_from
+                - late
+                - half_day
+                - work_from_type
+                - month
+                - year
+                - mark_attendance_by
+                - multi_date
+              properties:
+                user_id:
+                  type: array
+                  description: |
+                    - UserID of Employees
+                clock_in_time:
+                  type: time
+                clock_out_time:
+                  type: time
+                working_from:
+                  type: string
+                  description: |
+                    - Type of : "home", "office", "other"
+
+      responses:
+        "200":
+          description: ""
+  /companies:
+    get:
+      tags:
+        - Companies
+      summary: /companies
+      description: /companies
+      operationId: companies1
+      responses:
+        "200":
+          description: ""
+    put:
+      tags:
+        - Companies
+      summary: /companies
+      description: /companies
+      operationId: companies
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                address:
+                  type: string
+                  example: VN
+                company_email:
+                  type: string
+                  example: admin@example.com
+                company_name:
+                  type: string
+                  example: Demo Worksuite
+                company_phone:
+                  type: string
+                  example: "123456789"
+                currency_id:
+                  type: number
+                  example: 1
+                dashboard_clock:
+                  type: number
+                  example: 1
+                date_format:
+                  type: string
+                  example: d-m-Y
+                date_picker_format:
+                  type: string
+                  example: dd-mm-yyyy
+                locale:
+                  type: string
+                  example: en
+                moment_format:
+                  type: string
+                  example: DD-MM-YYYY
+                time_format:
+                  type: string
+                  example: h:i a
+                timezone:
+                  type: string
+                  example: Asia/Ho_Chi_Minh
+                website:
+                  type: string
+                  example: cloodo.com
+            example:
+              address: VN
+              company_email: admin@example.com
+              company_name: Demo Worksuite
+              company_phone: "123456789"
+              currency_id: 1
+              dashboard_clock: 1
+              date_format: d-m-Y
+              date_picker_format: dd-mm-yyyy
+              locale: en
+              moment_format: DD-MM-YYYY
+              time_format: h:i a
+              timezone: Asia/Ho_Chi_Minh
+              website: cloodo.com
+      responses:
+        "200":
+          description: ""
+  /companies/images:
+    post:
+      tags:
+        - Companies
+      summary: companies/images
+      description: companies/images
+      operationId: companiesImages
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        "200":
+          description: ""
+  /contracts:
+    get:
+      tags:
+        - Contracts
+      summary: /contracts
+      description: /contracts
+      operationId: contracts
+      responses:
+        "200":
+          description: ""
+    post:
+      tags:
+        - Contracts
+      summary: /contracts
+      description: /contracts
+      operationId: contracts1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                alternate_address:
+                  type: string
+                  example: abcba
+                amount:
+                  type: number
+                  example: 500
+                cell:
+                  type: number
+                  example: 1
+                city:
+                  type: string
+                  example: vn
+                client_id:
+                  type: number
+                  example: 10
+                contract_detail:
+                  type: string
+                  example: nbffasdfsa
+                contract_number:
+                  type: string
+                  example: dsjfndf
+                contract_type_id:
+                  type: number
+                  example: 1
+                country:
+                  type: string
+                  example: vn
+                description:
+                  type: string
+                  example: test
+                end_date:
+                  type: string
+                  example: 10-04-2023
+                office:
+                  type: string
+                  example: hn
+                postal_code:
+                  type: string
+                  example: "100000"
+                project_id:
+                  type: number
+                  example: 2
+                start_date:
+                  type: string
+                  example: 05-04-2023
+                state:
+                  type: string
+                  example: vn
+                subject:
+                  type: string
+                  example: Test Contract
+            example:
+              alternate_address: abcba
+              amount: 500
+              cell: 1
+              city: vn
+              client_id: 10
+              contract_detail: nbffasdfsa
+              contract_number: dsjfndf
+              contract_type_id: 1
+              country: vn
+              description: test
+              end_date: 10-04-2023
+              office: hn
+              postal_code: "100000"
+              project_id: 2
+              start_date: 05-04-2023
+              state: vn
+              subject: Test Contract
+      responses:
+        "200":
+          description: ""
+  /contract-types:
+    get:
+      tags:
+        - Contract Types
+      summary: contract-types
+      description: contract-types
+      operationId: contractTypes
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: string
+          description: "10"
+        - name: search
+          in: query
+          schema:
+            type: string
+          description: string
+      responses:
+        "200":
+          description: ""
+    post:
+      tags:
+        - Contract Types
+      summary: /contract-types
+      description: /contract-types
+      operationId: contractTypes1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: string, required
+            example:
+              name: string, required
+      responses:
+        "200":
+          description: ""
+  /contract-types/{id}:
+    put:
+      tags:
+        - Contract Types
+      summary: /contract-types/{id}
+      description: /contract-types/{id}
+      operationId: contractTypesId
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: string, required
+            example:
+              name: string, required
+      responses:
+        "200":
+          description: ""
+    delete:
+      tags:
+        - Contract Types
+      summary: contract-types/{id}
+      description: contract-types/{id}
+      operationId: contractTypesId1
+      responses:
+        "200":
+          description: ""
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+  /clients:
+    get:
+      tags:
+        - Clients
+      summary: /clients
+      description: /clients
+      operationId: clients
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: string
+          description: "10"
+        - name: search
+          in: query
+          schema:
+            type: string
+          description: string
+        - name: date_from
+          in: query
+          schema:
+            type: string
+          description: date
+        - name: date_to
+          in: query
+          schema:
+            type: string
+          description: date
+        - name: category_id
+          in: query
+          schema:
+            type: string
+          description: integer
+        - name: sub_category_id
+          in: query
+          schema:
+            type: string
+          description: integer
+        - name: country_id
+          in: query
+          schema:
+            type: string
+          description: integer
+      responses:
+        "200":
+          description: ""
+    post:
+      tags:
+        - Clients
+      summary: /clients
+      description: /clients
+      operationId: clients1
+      requestBody:
+        
+        content:
+          text/plain:
+            example: "{\r\n    \"name\": \"testclient123\",\r\n    \"email\": \"client1234@example.com\",\r\n    \"company_name\": \"abca\",\r\n    \"company_logo\": \"string\",\r\n    \"address\": \"cbabc\", \r\n    \"postal_code\": \"10000\", \r\n    \"state\": \"vn\", \r\n    \"city\": \"vn\", \r\n    \"office_phone\": \"123456678\", \r\n    \"website\": \"cloodo.com\", \r\n    \"note\": \"test\", \r\n    \"skype\": \"san.dt\", \r\n    \"facebook\": \"san.dt\", \r\n    \"twitter\": \"san.dt\", \r\n    \"linkedin\": \"san.dt\", \r\n    \"gst_number\": \"123413\", \r\n    \"shipping_address\": \"HN\", \r\n    \"category_id\": 1, \r\n    \"sub_category_id\": 1,\r\n    \"login\": \"enable\", // 'enable', 'disable'\r\n    \"image\": \"string\",\r\n    \"mobile\": \"string\",\r\n    \"country_id\": \"interge\",\r\n    \"gender\": \"string\", //Male, Female, Others\r\n    \"email_notifications\": \"boolean\",\r\n    \"salutation\": \"mr, mrs, miss, dr, sir, madam\",\r\n}"
+      responses:
+        "200":
+          description: ""
+  /clients/{id}:
+    put:
+      tags:
+        - Clients
+      summary: /clients/{id}
+      description: /clients/{id}
+      operationId: clientsId
+      requestBody:
+        content:
+          text/plain:
+            example: "{\r\n    \"name\": \"testclient123\",\r\n    \"email\": \"client1234@example.com\",\r\n    \"company_name\": \"abca\",\r\n    \"company_logo\": \"string\",\r\n    \"address\": \"cbabc\", \r\n    \"postal_code\": \"10000\", \r\n    \"state\": \"vn\", \r\n    \"city\": \"vn\", \r\n    \"office_phone\": \"123456678\", \r\n    \"website\": \"cloodo.com\", \r\n    \"note\": \"test\", \r\n    \"skype\": \"san.dt\", \r\n    \"facebook\": \"san.dt\", \r\n    \"twitter\": \"san.dt\", \r\n    \"linkedin\": \"san.dt\", \r\n    \"gst_number\": \"123413\", \r\n    \"shipping_address\": \"HN\", \r\n    \"category_id\": 1, \r\n    \"sub_category_id\": 1,\r\n    \"login\": \"enable\", // 'enable', 'disable'\r\n    \"image\": \"string\",\r\n    \"mobile\": \"string\",\r\n    \"country_id\": \"interge\",\r\n    \"gender\": \"string\", //Male, Female, Others\r\n    \"email_notifications\": \"boolean\",\r\n    \"salutation\": \"mr, mrs, miss, dr, sir, madam\",\r\n}"
+      responses:
+        "200":
+          description: ""
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+  /v3/clients/{id}:
+    get:
+      tags:
+        - Clients
+      summary: /clients/{id}
+      description: /clients/{id}
+      operationId: clientsId1
+      requestBody:
+        content:
+          text/plain:
+            example: "{\r\n    \"name\": \"testclient123\",\r\n    \"email\": \"client1234@example.com\",\r\n    \"company_name\": \"abca\",\r\n    \"company_logo\": \"string\",\r\n    \"address\": \"cbabc\", \r\n    \"postal_code\": \"10000\", \r\n    \"state\": \"vn\", \r\n    \"city\": \"vn\", \r\n    \"office_phone\": \"123456678\", \r\n    \"website\": \"cloodo.com\", \r\n    \"note\": \"test\", \r\n    \"skype\": \"san.dt\", \r\n    \"facebook\": \"san.dt\", \r\n    \"twitter\": \"san.dt\", \r\n    \"linkedin\": \"san.dt\", \r\n    \"gst_number\": \"123413\", \r\n    \"shipping_address\": \"HN\", \r\n    \"category_id\": 1, \r\n    \"sub_category_id\": 1,\r\n    \"login\": \"enable\", // 'enable', 'disable'\r\n    \"image\": \"string\",\r\n    \"mobile\": \"string\",\r\n    \"country_id\": \"interge\",\r\n    \"gender\": \"string\", //Male, Female, Others\r\n    \"email_notifications\": \"boolean\",\r\n    \"salutation\": \"mr, mrs, miss, dr, sir, madam\",\r\n}"
+      responses:
+        "200":
+          description: ""
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+  /v3/client/{id}:
+    delete:
+      tags:
+        - Clients
+      summary: /client/{id}
+      description: /client/{id}
+      operationId: clientId
+      responses:
+        "200":
+          description: ""
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+  /countries:
+    get:
+      tags:
+        - Countries
+      summary: /countries
+      description: /countries
+      operationId: countries
+      parameters:
+        - name: search
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+  /currencies:
+    get:
+      tags:
+        - Currencies
+      summary: /currencies
+      description: /currencies
+      operationId: currencies
+      parameters:
+        - name: search
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+  /v3/departments:
+    get:
+      tags:
+        - Departments
+      summary: /departments
+      description: /departments
+      operationId: departments
+      parameters:
+        - name: search
+          in: query
+          schema:
+            type: string
+          description: string
+        - name: limit
+          in: query
+          schema:
+            type: string
+          description: "10"
+      responses:
+        "200":
+          description: ""
+    post:
+      tags:
+        - Departments
+      summary: /departments
+      description: /departments
+      operationId: departments1
+      requestBody:
+        content:
+          text/plain:
+            example: "{\r\n    \"team_name\": \"Dev\",\r\n    \"parent_id\": 1 // Null\r\n}"
+      responses:
+        "200":
+          description: ""
+  /v3/departments/{id}:
+    get:
+      tags:
+        - Departments
+      summary: /departments/{id}
+      description: /departments/{id}
+      operationId: departmentsId1
+      requestBody:
+        content:
+          text/plain:
+            example: "{\r\n    \"team_name\": \"Dev\",\r\n    \"parent_id\": 1 // Null\r\n}"
+      responses:
+        "200":
+          description: ""
+    put:
+      tags:
+        - Departments
+      summary: /departments{id}
+      description: /departments{id}
+      operationId: departmentsId
+      requestBody:
+        content:
+          text/plain:
+            example: "{\r\n    \"team_name\": \"Dev\",\r\n    \"parent_id\": 1 // Null\r\n}"
+      responses:
+        "200":
+          description: ""
+    delete:
+      tags:
+        - Departments
+      summary: /departments/{id}
+      description: /departments/{id}
+      operationId: departmentsId2
+      responses:
+        "200":
+          description: ""
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+  /designations:
+    get:
+      tags:
+        - Designations
+      summary: /designations
+      description: /designations
+      operationId: designations
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: string
+          description: "10"
+        - name: search
+          in: query
+          schema:
+            type: string
+          description: string
+        - name: sortBy
+          in: query
+          schema:
+            type: string
+          description: id, team_name
+        - name: sort
+          in: query
+          schema:
+            type: string
+          description: asc, desc
+      responses:
+        "200":
+          description: ""
+  /designations/{id}:
+    get:
+      tags:
+        - Designations
+      summary: /designations/{id}
+      description: /designations/{id}
+      operationId: designationsId
+      responses:
+        "200":
+          description: ""
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+  /v3/designations:
+    post:
+      tags:
+        - Designations
+      summary: /designations
+      description: /designations
+      operationId: designations1
+      requestBody:
+        content:
+          text/plain:
+            example: "{\r\n    \"name\": \"Dev\",\r\n    \"parent_id\": 1 // null\r\n}"
+      responses:
+        "200":
+          description: ""
+  /v3/designations/{id}:
+    put:
+      tags:
+        - Designations
+      summary: designations/{id}
+      description: designations/{id}
+      operationId: designationsId1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: BA
+                parent_id:
+                  type: number
+                  example: 1
+            example:
+              name: BA
+              parent_id: 1
+      responses:
+        "200":
+          description: ""
+    delete:
+      tags:
+        - Designations
+      summary: /designations/{id}
+      description: /designations/{id}
+      operationId: designationsId2
+      responses:
+        "200":
+          description: ""
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+  /v3/employees:
+    get:
+      tags:
+        - Employees
+      summary: /employees
+      description: /employees
+      operationId: employees
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: string
+          description: "10"
+        - name: search
+          in: query
+          schema:
+            type: string
+          description: string
+        - name: status
+          in: query
+          schema:
+            type: string
+          description: "'active', 'deactive'"
+        - name: role_id
+          in: query
+          schema:
+            type: string
+          description: integer
+        - name: designation_id
+          in: query
+          schema:
+            type: string
+          description: integer
+        - name: department_id
+          in: query
+          schema:
+            type: string
+          description: integer
+        - name: sort
+          in: query
+          schema:
+            type: string
+          description: asc, desc
+        - name: sortBy
+          in: query
+          schema:
+            type: string
+          description: id, name
+      responses:
+        "200":
+          description: ""
+  /v3/employees/{id}:
+    get:
+      tags:
+        - Employees
+      summary: /employees/{id}
+      description: /employees/{id}
+      operationId: employeesId
+      responses:
+        "200":
+          description: ""
+    put:
+      tags:
+        - Employees
+      summary: /employees/{id}
+      description: /employees/{id}
+      operationId: employeesId1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                about_me:
+                  type: string
+                  example: hi php
+                address:
+                  type: string
+                  example: Hn
+                contract_end_date:
+                  type: string
+                  example: 30-03-2023
+                country_id:
+                  type: number
+                  example: 1
+                date_of_birth:
+                  type: string
+                  example: 30-03-2023
+                department_id:
+                  type: number
+                  example: 2
+                designation_id:
+                  type: number
+                  example: 2
+                email:
+                  type: string
+                  example: employees1293@test.com
+                email_notifications:
+                  type: boolean
+                  example: false
+                employee_id:
+                  type: string
+                  example: 122343dfg
+                employment_type:
+                  type: string
+                  example: text
+                gender:
+                  type: string
+                  example: female
+                hourly_rate:
+                  type: string
+                  example: "50"
+                image:
+                  type: string
+                  example: file
+                internal_ship_end_date:
+                  type: string
+                  example: 30-03-2023
+                joining_date:
+                  type: string
+                  example: 30-03-2023
+                last_date:
+                  type: string
+                  example: 01-04-2023
+                locale:
+                  type: string
+                  example: en
+                login:
+                  type: string
+                  example: enable
+                marriage_anniversary_date:
+                  type: string
+                  example: 30-03-2023
+                marriage_status:
+                  type: string
+                  example: text
+                mobile:
+                  type: number
+                  example: 134567889
+                name:
+                  type: string
+                  example: employees 2
+                notice_period_end_date:
+                  type: string
+                  example: 30-03-2023
+                notice_period_start_date:
+                  type: string
+                  example: 30-03-2023
+                password:
+                  type: string
+                  example: "123456789"
+                reporting_to:
+                  type: string
+                  example: "1"
+                skill:
+                  type: array
+                  items:
+                    type: string
+                    example: php
+                  example:
+                    - php
+                    - react
+                slack_username:
+                  type: string
+                  example: test
+            example:
+              about_me: hi php
+              address: Hn
+              contract_end_date: 30-03-2023
+              country_id: 1
+              date_of_birth: 30-03-2023
+              department_id: 2
+              designation_id: 2
+              email: employees1293@test.com
+              email_notifications: false
+              employee_id: 122343dfg
+              employment_type: text
+              gender: female
+              hourly_rate: "50"
+              image: file
+              internal_ship_end_date: 30-03-2023
+              joining_date: 30-03-2023
+              last_date: 01-04-2023
+              locale: en
+              login: enable
+              marriage_anniversary_date: 30-03-2023
+              marriage_status: text
+              mobile: 134567889
+              name: employees 2
+              notice_period_end_date: 30-03-2023
+              notice_period_start_date: 30-03-2023
+              password: "123456789"
+              reporting_to: "1"
+              skill:
+                - php
+                - react
+              slack_username: test
+      responses:
+        "200":
+          description: ""
+    delete:
+      tags:
+        - Employees
+      summary: /employees
+      description: /employees
+      operationId: employees2
+      responses:
+        "200":
+          description: ""
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+  /employees:
+    post:
+      tags:
+        - Employees
+      summary: /employees
+      description: /employees
+      operationId: employees1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                about_me:
+                  type: string
+                  example: hi php
+                address:
+                  type: string
+                  example: Hn
+                contract_end_date:
+                  type: string
+                  example: 30-03-2023
+                country_id:
+                  type: number
+                  example: 1
+                date_of_birth:
+                  type: string
+                  example: 30-03-2023
+                department_id:
+                  type: number
+                  example: 1
+                designation_id:
+                  type: number
+                  example: 1
+                email:
+                  type: string
+                  example: employees@example.com
+                email_notifications:
+                  type: boolean
+                  example: false
+                employee_id:
+                  type: string
+                  example: 122343dfg
+                employment_type:
+                  type: string
+                  example: text
+                gender:
+                  type: string
+                  example: male
+                hourly_rate:
+                  type: string
+                  example: "50"
+                internal_ship_end_date:
+                  type: string
+                  example: 30-03-2023
+                joining_date:
+                  type: string
+                  example: 30-03-2023
+                last_date:
+                  type: string
+                  example: 01-04-2023
+                locale:
+                  type: string
+                  example: en
+                login:
+                  type: string
+                  example: enable
+                marriage_anniversary_date:
+                  type: string
+                  example: 30-03-2023
+                marriage_status:
+                  type: string
+                  example: text
+                mobile:
+                  type: number
+                  example: 134567889
+                name:
+                  type: string
+                  example: employees 2
+                notice_period_end_date:
+                  type: string
+                  example: 30-03-2023
+                notice_period_start_date:
+                  type: string
+                  example: 30-03-2023
+                password:
+                  type: string
+                  example: "123456"
+                reporting_to:
+                  type: string
+                  example: "1"
+                skill:
+                  type: array
+                  items:
+                    type: string
+                    example: php
+                  example:
+                    - php
+                    - react
+                slack_username:
+                  type: string
+                  example: test
+            example:
+              about_me: hi php
+              address: Hn
+              contract_end_date: 30-03-2023
+              country_id: 1
+              date_of_birth: 30-03-2023
+              department_id: 1
+              designation_id: 1
+              email: employees@example.com
+              email_notifications: false
+              employee_id: 122343dfg
+              employment_type: text
+              gender: male
+              hourly_rate: "50"
+              internal_ship_end_date: 30-03-2023
+              joining_date: 30-03-2023
+              last_date: 01-04-2023
+              locale: en
+              login: enable
+              marriage_anniversary_date: 30-03-2023
+              marriage_status: text
+              mobile: 134567889
+              name: employees 2
+              notice_period_end_date: 30-03-2023
+              notice_period_start_date: 30-03-2023
+              password: "123456"
+              reporting_to: "1"
+              skill:
+                - php
+                - react
+              slack_username: test
+      responses:
+        "200":
+          description: ""
+  /estimates:
+    get:
+      tags:
+        - Estimates
+      summary: /estimates
+      description: /estimates
+      operationId: estimates
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: string
+          description: "10"
+        - name: search
+          in: query
+          schema:
+            type: string
+          description: string
+        - name: status
+          in: query
+          schema:
+            type: string
+          description: paid, unpaid, canceled, draft
+        - name: sort
+          in: query
+          schema:
+            type: string
+          description: asc, desc
+        - name: sortBy
+          in: query
+          schema:
+            type: string
+          description: id
+      responses:
+        "200":
+          description: ""
+    post:
+      tags:
+        - Estimates
+      summary: /estimates
+      description: /estimates
+      operationId: estimates1
+      requestBody:
+        content:
+          text/plain:
+            example: "{\r\n    \"estimate_number\": 3,\r\n    \"currency_id\": 29,\r\n    \"client_id\": 10,\r\n    \"discount\": 0,\r\n    \"discount_type\": \"percent\", // percent, fixed\r\n    \"valid_till\": \"30-03-2023\",\r\n    \"sub_total\": 500,\r\n    \"total\": 500,\r\n    \"note\": \"string\",\r\n    \"send_status\": 0,\r\n    \"status\": \"waiting\", // paid, unpaid, canceled, draft\r\n    \"calculate_tax\": \"after_discount\", // after_discount, before_discount\r\n    \"estimate_items\": [\r\n        {\r\n            \"item_name\": \"Product 12\",\r\n            \"item_summary\": \"abc\",\r\n            \"quantity\": 1,\r\n            \"unit_price\": 500,\r\n            \"amount\": 500,\r\n            \"tax_id\": 1,\r\n            \"filename\": \"google\",\r\n            \"external_link\": \"google.com.vn\"\r\n        }\r\n    ],\r\n    \"unit_id\": \"integer\"\r\n}"
+      responses:
+        "200":
+          description: ""
+  /v3/estimates/{id}:
+    put:
+      tags:
+        - Estimates
+      summary: /estimates/{id}
+      description: /estimates/{id}
+      operationId: estimatesId
+      requestBody:
+        content:
+          text/plain:
+            example: "{\r\n    \"estimate_number\": 3,\r\n    \"currency_id\": 29,\r\n    \"client_id\": 10,\r\n    \"discount\": 0,\r\n    \"discount_type\": \"percent\", // percent, fixed\r\n    \"valid_till\": \"30-03-2023\",\r\n    \"sub_total\": 500,\r\n    \"total\": 500,\r\n    \"note\": \"string\",\r\n    \"send_status\": 0,\r\n    \"status\": \"waiting\", // paid, unpaid, canceled, draft\r\n    \"calculate_tax\": \"after_discount\", // after_discount, before_discount\r\n    \"estimate_items\": [\r\n        {\r\n            \"item_name\": \"Product 12\",\r\n            \"item_summary\": \"abc\",\r\n            \"quantity\": 1,\r\n            \"unit_price\": 500,\r\n            \"amount\": 500,\r\n            \"tax_id\": 1,\r\n            \"filename\": \"google\",\r\n            \"external_link\": \"google.com.vn\"\r\n        }\r\n    ],\r\n    \"unit_id\": \"integer\"\r\n}"
+      responses:
+        "200":
+          description: ""
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+  /estimates/{id}:
+    get:
+      tags:
+        - Estimates
+      summary: /estimates/{id}
+      description: /estimates/{id}
+      operationId: estimatesId1
+      parameters:
+        - name: date_form
+          in: query
+          schema:
+            type: string
+        - name: date_to
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+  /expense:
+    get:
+      tags:
+        - Expenses
+      summary: /expenses
+      description: /expenses
+      operationId: expenses
+      responses:
+        "200":
+          description: ""
+  /expense/{id}:
+    get:
+      tags:
+        - Expenses
+      summary: /expenses/{id}
+      description: /expenses/{id}
+      operationId: expensesId
+      responses:
+        "200":
+          description: ""
+    delete:
+      tags:
+        - Expenses
+      summary: /expenses/{id}
+      description: /expenses/{id}
+      operationId: expensesId2
+      responses:
+        "200":
+          description: ""
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+  /expenses:
+    post:
+      tags:
+        - Expenses
+      summary: /expenses
+      description: /expenses
+      operationId: expenses1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                apporover_id:
+                  type: string
+                  example: "1"
+                bank_account_id:
+                  type: number
+                  example: 1
+                bill:
+                  type: string
+                  example: text
+                can_claim:
+                  type: boolean
+                  example: true
+                category_id:
+                  type: number
+                  example: 1
+                currency_id:
+                  type: number
+                  example: 29
+                description:
+                  type: string
+                  example: abc
+                exchange_rate:
+                  type: number
+                  example: 1
+                expenses_recurring_id:
+                  type: number
+                  example: 1
+                item_name:
+                  type: string
+                  example: test
+                price:
+                  type: number
+                  example: 100
+                project_id:
+                  type: number
+                  example: 1
+                purchase_date:
+                  type: string
+                  example: 30-03-2023
+                purchase_from:
+                  type: string
+                  example: Product
+                status:
+                  type: string
+                  example: pending
+                user_id:
+                  type: number
+                  example: 11
+            example:
+              apporover_id: "1"
+              bank_account_id: 1
+              bill: text
+              can_claim: true
+              category_id: 1
+              currency_id: 29
+              description: abc
+              exchange_rate: 1
+              expenses_recurring_id: 1
+              item_name: test
+              price: 100
+              project_id: 1
+              purchase_date: 30-03-2023
+              purchase_from: Product
+              status: pending
+              user_id: 11
+      responses:
+        "200":
+          description: ""
+  /api/v3/expenses/{id}:
+    put:
+      tags:
+        - Expenses
+      summary: /expenses/{id}
+      description: /expenses/{id}
+      operationId: expensesId1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                apporover_id:
+                  type: string
+                  example: "1"
+                bank_account_id:
+                  type: number
+                  example: 1
+                bill:
+                  type: string
+                  example: text
+                can_claim:
+                  type: boolean
+                  example: true
+                category_id:
+                  type: number
+                  example: 1
+                currency_id:
+                  type: number
+                  example: 29
+                description:
+                  type: string
+                  example: abc
+                exchange_rate:
+                  type: number
+                  example: 1
+                expenses_recurring_id:
+                  type: number
+                  example: 1
+                item_name:
+                  type: string
+                  example: test 12
+                price:
+                  type: number
+                  example: 100
+                project_id:
+                  type: number
+                  example: 1
+                purchase_date:
+                  type: string
+                  example: 30-03-2023
+                purchase_from:
+                  type: string
+                  example: Pro duct
+                status:
+                  type: string
+                  example: pending
+                user_id:
+                  type: number
+                  example: 11
+            example:
+              apporover_id: "1"
+              bank_account_id: 1
+              bill: text
+              can_claim: true
+              category_id: 1
+              currency_id: 29
+              description: abc
+              exchange_rate: 1
+              expenses_recurring_id: 1
+              item_name: test 12
+              price: 100
+              project_id: 1
+              purchase_date: 30-03-2023
+              purchase_from: Pro duct
+              status: pending
+              user_id: 11
+      responses:
+        "200":
+          description: ""
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+  /expenses-recurring:
+    get:
+      tags:
+        - Expenses Recurrings
+      summary: /expenses-recurring
+      description: /expenses-recurring
+      operationId: expensesRecurring
+      parameters:
+        - name: search
+          in: query
+          schema:
+            type: string
+          description: string
+        - name: limit
+          in: query
+          schema:
+            type: string
+          description: "10"
+      responses:
+        "200":
+          description: ""
+  /v3/expenses-recurring:
+    post:
+      tags:
+        - Expenses Recurrings
+      summary: /expenses-recurring
+      description: /expenses-recurring
+      operationId: expensesRecurring1
+      requestBody:
+        content:
+          text/plain:
+            example: "{\r\n    \"project_id\": 1,\r\n    \"category_id\": 1,\r\n    \"currency_id\": 29,\r\n    \"item_name\": \"Test Expense Recurring\",\r\n    \"day_of_month\": 5,\r\n    \"day_of_weak\": 1,\r\n    \"payment_method\": \"pay\",\r\n    \"rotation\": \"monthly\", // rotation = monthly, bi-weekly, daily, monthly, quarterly, half-yearly, annually,\r\n    \"billing_cycle\": 1,\r\n    \"price\": 500,\r\n    \"bill\": \"text\",\r\n    \"status\": \"active\", // active, inactive\r\n    \"description\": \"abc\",\r\n    \"user_id\": 12,\r\n    \"immediate_expense\": true,\r\n    \"purchase_from\": \"1\",\r\n    \"unlimited_recurring\": 1,\r\n    \"next_expense_date\": \"30-03-2023\"\r\n}"
+      responses:
+        "200":
+          description: ""
+  /v3/expenses-recurring/{id}:
+    get:
+      tags:
+        - Expenses Recurrings
+      summary: /expenses-recurring/{id}
+      description: /expenses-recurring/{id}
+      operationId: expensesRecurringId1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                bill:
+                  type: string
+                  example: text
+                billing_cycle:
+                  type: number
+                  example: 1
+                category_id:
+                  type: number
+                  example: 1
+                currency_id:
+                  type: number
+                  example: 29
+                day_of_month:
+                  type: number
+                  example: 5
+                day_of_weak:
+                  type: number
+                  example: 1
+                description:
+                  type: string
+                  example: abc
+                immediate_expense:
+                  type: boolean
+                  example: true
+                item_name:
+                  type: string
+                  example: Test Expense Recurring
+                payment_method:
+                  type: string
+                  example: pay
+                price:
+                  type: number
+                  example: 500
+                project_id:
+                  type: number
+                  example: 1
+                purchase_from:
+                  type: string
+                  example: "1"
+                rotation:
+                  type: string
+                  example: monthly
+                status:
+                  type: string
+                  example: active
+                user_id:
+                  type: number
+                  example: 12
+            example:
+              bill: text
+              billing_cycle: 1
+              category_id: 1
+              currency_id: 29
+              day_of_month: 5
+              day_of_weak: 1
+              description: abc
+              immediate_expense: true
+              item_name: Test Expense Recurring
+              payment_method: pay
+              price: 500
+              project_id: 1
+              purchase_from: "1"
+              rotation: monthly
+              status: active
+              user_id: 12
+      responses:
+        "200":
+          description: ""
+    put:
+      tags:
+        - Expenses Recurrings
+      summary: /expenses-recurring/{id}
+      description: /expenses-recurring/{id}
+      operationId: expensesRecurringId
+      requestBody:
+        content:
+          text/plain:
+            example: "{\r\n    \"project_id\": 1,\r\n    \"category_id\": 1,\r\n    \"currency_id\": 29,\r\n    \"item_name\": \"Test Expense Recurring\",\r\n    \"day_of_month\": 5,\r\n    \"day_of_weak\": 1,\r\n    \"payment_method\": \"pay\",\r\n    \"rotation\": \"monthly\", // rotation = monthly, bi-weekly, daily, monthly, quarterly, half-yearly, annually,\r\n    \"billing_cycle\": 1,\r\n    \"price\": 500,\r\n    \"bill\": \"text\",\r\n    \"status\": \"active\", // active, inactive\r\n    \"description\": \"abc\",\r\n    \"user_id\": 12,\r\n    \"immediate_expense\": true,\r\n    \"purchase_from\": \"1\",\r\n    \"unlimited_recurring\": 1,\r\n    \"next_expense_date\": \"30-03-2023\"\r\n}"
+      responses:
+        "200":
+          description: ""
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+  /holidays:
+    get:
+      tags:
+        - Holidays
+      summary: /holidays
+      description: /holidays
+      operationId: holidays
+      responses:
+        "200":
+          description: ""
+    post:
+      tags:
+        - Holidays
+      summary: /holidays
+      description: /holidays
+      operationId: holidays1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                items:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      date:
+                        type: string
+                        example: 30-03-2023
+                      occasion:
+                        type: string
+                        example: abc
+                  example:
+                    - date: 30-03-2023
+                      occasion: abc
+                    - date: 30-03-2023
+                      occasion: test
+                    - date: 01-04-2023
+                      occasion: Ca thang 4
+            example:
+              items:
+                - date: 30-03-2023
+                  occasion: abc
+                - date: 30-03-2023
+                  occasion: test
+                - date: 01-04-2023
+                  occasion: Ca thang 4
+      responses:
+        "200":
+          description: ""
+  /holidays/{id}:
+    put:
+      tags:
+        - Holidays
+      summary: /holidays/{id}
+      description: /holidays/{id}
+      operationId: holidaysId
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                items:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      date:
+                        type: string
+                        example: 30-03-2023
+                      occasion:
+                        type: string
+                        example: abc
+                  example:
+                    - date: 30-03-2023
+                      occasion: abc
+                    - date: 30-03-2023
+                      occasion: test
+                    - date: 01-04-2023
+                      occasion: Ca thang 4
+            example:
+              items:
+                - date: 30-03-2023
+                  occasion: abc
+                - date: 30-03-2023
+                  occasion: test
+                - date: 01-04-2023
+                  occasion: Ca thang 4
+      responses:
+        "200":
+          description: ""
+    delete:
+      tags:
+        - Holidays
+      summary: /holidays/{id}
+      description: /holidays/{id}
+      operationId: holidaysId1
+      responses:
+        "200":
+          description: ""
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+  /invoices:
+    get:
+      tags:
+        - Invoices
+      summary: /invoices
+      description: /invoices
+      operationId: invoices
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: string
+          description: "10"
+        - name: search
+          in: query
+          schema:
+            type: string
+          description: string
+        - name: client_id
+          in: query
+          schema:
+            type: string
+          description: integer
+        - name: date_from
+          in: query
+          schema:
+            type: string
+          description: date
+        - name: date_to
+          in: query
+          schema:
+            type: string
+          description: date
+        - name: sort
+          in: query
+          schema:
+            type: string
+          description: asc, desc
+        - name: sortBy
+          in: query
+          schema:
+            type: string
+          description: id, invoice_number
+        - name: status
+          in: query
+          schema:
+            type: string
+          description: paid unpaid partial canceled draft
+        - name: project_id
+          in: query
+          schema:
+            type: string
+          description: integer
+      responses:
+        "200":
+          description: ""
+  /v3/invoices:
+    post:
+      tags:
+        - Invoices
+      summary: /invoices
+      description: /invoices
+      operationId: invoices1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                calculate_tax:
+                  type: string
+                  example: after_discount
+                client_id:
+                  type: number
+                  example: 10
+                company_address_id:
+                  type: number
+                  example: 8
+                currency_id:
+                  type: number
+                  example: 29
+                discount:
+                  type: number
+                  example: 0
+                discount_type:
+                  type: string
+                  example: percent
+                due_amount:
+                  type: number
+                  example: 500
+                due_date:
+                  type: string
+                  example: 31-03-2023
+                exchange_rate:
+                  type: number
+                  example: 1
+                file:
+                  type: string
+                  example: anc
+                invoice_items:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      amount:
+                        type: number
+                        example: 49
+                      external_link:
+                        type: string
+                        example: google.com
+                      filename:
+                        type: string
+                        example: img.png
+                      hsn_sac_code:
+                        type: string
+                        example: "#product"
+                      item_name:
+                        type: string
+                        example: Printcart Shopify $49
+                      item_summary:
+                        type: string
+                        example: Helu
+                      quantity:
+                        type: number
+                        example: 1
+                      size:
+                        type: string
+                        example: "10"
+                      tax_id:
+                        type: number
+                        example: 1
+                      unit_price:
+                        type: string
+                        example: "49"
+                  example:
+                    - amount: 49
+                      external_link: google.com
+                      filename: img.png
+                      hsn_sac_code: "#product"
+                      item_name: Printcart Shopify $49
+                      item_summary: Helu
+                      quantity: 1
+                      size: "10"
+                      tax_id: 1
+                      unit_price: "49"
+                invoice_number:
+                  type: number
+                  example: 3
+                issue_date:
+                  type: string
+                  example: 30-03-2023
+                note:
+                  type: string
+                  example: abc
+                project_id:
+                  type: number
+                  example: 1
+                send_status:
+                  type: number
+                  example: 0
+                show_shipping_address:
+                  type: string
+                  example: "no"
+                status:
+                  type: string
+                  example: unpaid
+                sub_total:
+                  type: number
+                  example: 500
+                total:
+                  type: number
+                  example: 500
+            example:
+              calculate_tax: after_discount
+              client_id: 10
+              company_address_id: 8
+              currency_id: 29
+              discount: 0
+              discount_type: percent
+              due_amount: 500
+              due_date: 31-03-2023
+              exchange_rate: 1
+              file: anc
+              invoice_items:
+                - amount: 49
+                  external_link: google.com
+                  filename: img.png
+                  hsn_sac_code: "#product"
+                  item_name: Printcart Shopify $49
+                  item_summary: Helu
+                  quantity: 1
+                  size: "10"
+                  tax_id: 1
+                  unit_price: "49"
+              invoice_number: 3
+              issue_date: 30-03-2023
+              note: abc
+              project_id: 1
+              send_status: 0
+              show_shipping_address: "no"
+              status: unpaid
+              sub_total: 500
+              total: 500
+      responses:
+        "200":
+          description: ""
+  /invoices/{id}:
+    put:
+      tags:
+        - Invoices
+      summary: /invoices/{id}
+      description: /invoices/{id}
+      operationId: invoicesId
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                calculate_tax:
+                  type: string
+                  example: after_discount
+                client_id:
+                  type: number
+                  example: 10
+                company_address_id:
+                  type: number
+                  example: 8
+                currency_id:
+                  type: number
+                  example: 29
+                discount:
+                  type: number
+                  example: 0
+                discount_type:
+                  type: string
+                  example: percent
+                due_amount:
+                  type: number
+                  example: 500
+                due_date:
+                  type: string
+                  example: 31-03-2023
+                exchange_rate:
+                  type: number
+                  example: 1
+                file:
+                  type: string
+                  example: anc
+                invoice_items:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      amount:
+                        type: number
+                        example: 49
+                      external_link:
+                        type: string
+                        example: google.com
+                      filename:
+                        type: string
+                        example: img.png
+                      hsn_sac_code:
+                        type: string
+                        example: "#product"
+                      item_name:
+                        type: string
+                        example: Printcart Shopify $49
+                      item_summary:
+                        type: string
+                        example: Helu
+                      quantity:
+                        type: number
+                        example: 1
+                      size:
+                        type: string
+                        example: "10"
+                      tax_id:
+                        type: number
+                        example: 1
+                      unit_price:
+                        type: string
+                        example: "49"
+                  example:
+                    - amount: 49
+                      external_link: google.com
+                      filename: img.png
+                      hsn_sac_code: "#product"
+                      item_name: Printcart Shopify $49
+                      item_summary: Helu
+                      quantity: 1
+                      size: "10"
+                      tax_id: 1
+                      unit_price: "49"
+                invoice_number:
+                  type: number
+                  example: 3
+                issue_date:
+                  type: string
+                  example: 30-03-2023
+                note:
+                  type: string
+                  example: abc
+                project_id:
+                  type: number
+                  example: 1
+                send_status:
+                  type: number
+                  example: 0
+                show_shipping_address:
+                  type: string
+                  example: "no"
+                status:
+                  type: string
+                  example: unpaid
+                sub_total:
+                  type: number
+                  example: 500
+                total:
+                  type: number
+                  example: 500
+            example:
+              calculate_tax: after_discount
+              client_id: 10
+              company_address_id: 8
+              currency_id: 29
+              discount: 0
+              discount_type: percent
+              due_amount: 500
+              due_date: 31-03-2023
+              exchange_rate: 1
+              file: anc
+              invoice_items:
+                - amount: 49
+                  external_link: google.com
+                  filename: img.png
+                  hsn_sac_code: "#product"
+                  item_name: Printcart Shopify $49
+                  item_summary: Helu
+                  quantity: 1
+                  size: "10"
+                  tax_id: 1
+                  unit_price: "49"
+              invoice_number: 3
+              issue_date: 30-03-2023
+              note: abc
+              project_id: 1
+              send_status: 0
+              show_shipping_address: "no"
+              status: unpaid
+              sub_total: 500
+              total: 500
+      responses:
+        "200":
+          description: ""
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+  /invoice-recurrings:
+    get:
+      tags:
+        - Invoice Recurrings
+      summary: invoice-recurrings
+      description: invoice-recurrings
+      operationId: invoiceRecurrings
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: string
+        - name: search
+          in: query
+          schema:
+            type: string
+        - name: date_from
+          in: query
+          schema:
+            type: string
+        - name: date_to
+          in: query
+          schema:
+            type: string
+        - name: sort
+          in: query
+          schema:
+            type: string
+        - name: sortBy
+          in: query
+          schema:
+            type: string
+        - name: status
+          in: query
+          schema:
+            type: string
+        - name: project_id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+  /v3/invoice-recurrings:
+    post:
+      tags:
+        - Invoice Recurrings
+      summary: invoice-recurrings
+      description: invoice-recurrings
+      operationId: invoiceRecurrings1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                calculate_tax:
+                  type: string
+                  example: after_discount
+                client_id:
+                  type: number
+                  example: 10
+                currency_id:
+                  type: number
+                  example: 29
+                day_of_month:
+                  type: number
+                  example: 1
+                discount:
+                  type: number
+                  example: 0
+                discount_type:
+                  type: string
+                  example: percent
+                due_date:
+                  type: string
+                  example: 31-03-2023
+                file:
+                  type: string
+                  example: anc
+                immediate_invoice:
+                  type: boolean
+                  example: true
+                invoice_items:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      amount:
+                        type: number
+                        example: 49
+                      external_link:
+                        type: string
+                        example: google.com
+                      filename:
+                        type: string
+                        example: ac
+                      hsn_sac_code:
+                        type: string
+                        example: "#product"
+                      item_name:
+                        type: string
+                        example: Printcart Shopify $49
+                      item_summary:
+                        type: string
+                        example: Helu
+                      quantity:
+                        type: number
+                        example: 1
+                      size:
+                        type: number
+                        example: 100
+                      tax_id:
+                        type: number
+                        example: 1
+                      unit_price:
+                        type: string
+                        example: "49"
+                  example:
+                    - amount: 49
+                      external_link: google.com
+                      filename: ac
+                      hsn_sac_code: "#product"
+                      item_name: Printcart Shopify $49
+                      item_summary: Helu
+                      quantity: 1
+                      size: 100
+                      tax_id: 1
+                      unit_price: "49"
+                issue_date:
+                  type: string
+                  example: 30-03-2023
+                note:
+                  type: string
+                  example: abc
+                project_id:
+                  type: number
+                  example: 1
+                rotation:
+                  type: string
+                  example: monthly
+                send_status:
+                  type: number
+                  example: 0
+                show_shipping_address:
+                  type: string
+                  example: "no"
+                status:
+                  type: string
+                  example: active
+                sub_total:
+                  type: number
+                  example: 500
+                total:
+                  type: number
+                  example: 500
+                unit_id:
+                  type: number
+                  example: 1
+            example:
+              calculate_tax: after_discount
+              client_id: 10
+              currency_id: 29
+              day_of_month: 1
+              discount: 0
+              discount_type: percent
+              due_date: 31-03-2023
+              file: anc
+              immediate_invoice: true
+              invoice_items:
+                - amount: 49
+                  external_link: google.com
+                  filename: ac
+                  hsn_sac_code: "#product"
+                  item_name: Printcart Shopify $49
+                  item_summary: Helu
+                  quantity: 1
+                  size: 100
+                  tax_id: 1
+                  unit_price: "49"
+              issue_date: 30-03-2023
+              note: abc
+              project_id: 1
+              rotation: monthly
+              send_status: 0
+              show_shipping_address: "no"
+              status: active
+              sub_total: 500
+              total: 500
+              unit_id: 1
+      responses:
+        "200":
+          description: ""
+  /invoice-recurrings/{id}:
+    put:
+      tags:
+        - Invoice Recurrings
+      summary: invoice-recurrings/{id}
+      description: invoice-recurrings/{id}
+      operationId: invoiceRecurringsId
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                calculate_tax:
+                  type: string
+                  example: after_discount
+                client_id:
+                  type: number
+                  example: 10
+                currency_id:
+                  type: number
+                  example: 29
+                day_of_month:
+                  type: number
+                  example: 1
+                discount:
+                  type: number
+                  example: 0
+                discount_type:
+                  type: string
+                  example: percent
+                due_date:
+                  type: string
+                  example: 31-03-2023
+                file:
+                  type: string
+                  example: anc
+                immediate_invoice:
+                  type: boolean
+                  example: true
+                invoice_items:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      amount:
+                        type: number
+                        example: 49
+                      external_link:
+                        type: string
+                        example: google.com
+                      filename:
+                        type: string
+                        example: ac
+                      hsn_sac_code:
+                        type: string
+                        example: "#product"
+                      item_name:
+                        type: string
+                        example: Printcart Shopify $49
+                      item_summary:
+                        type: string
+                        example: Helu
+                      quantity:
+                        type: number
+                        example: 1
+                      size:
+                        type: number
+                        example: 100
+                      tax_id:
+                        type: number
+                        example: 1
+                      unit_price:
+                        type: string
+                        example: "49"
+                  example:
+                    - amount: 49
+                      external_link: google.com
+                      filename: ac
+                      hsn_sac_code: "#product"
+                      item_name: Printcart Shopify $49
+                      item_summary: Helu
+                      quantity: 1
+                      size: 100
+                      tax_id: 1
+                      unit_price: "49"
+                issue_date:
+                  type: string
+                  example: 30-03-2023
+                note:
+                  type: string
+                  example: abc
+                project_id:
+                  type: number
+                  example: 1
+                rotation:
+                  type: string
+                  example: monthly
+                send_status:
+                  type: number
+                  example: 0
+                show_shipping_address:
+                  type: string
+                  example: "no"
+                status:
+                  type: string
+                  example: active
+                sub_total:
+                  type: number
+                  example: 500
+                total:
+                  type: number
+                  example: 500
+                unit_id:
+                  type: number
+                  example: 1
+            example:
+              calculate_tax: after_discount
+              client_id: 10
+              currency_id: 29
+              day_of_month: 1
+              discount: 0
+              discount_type: percent
+              due_date: 31-03-2023
+              file: anc
+              immediate_invoice: true
+              invoice_items:
+                - amount: 49
+                  external_link: google.com
+                  filename: ac
+                  hsn_sac_code: "#product"
+                  item_name: Printcart Shopify $49
+                  item_summary: Helu
+                  quantity: 1
+                  size: 100
+                  tax_id: 1
+                  unit_price: "49"
+              issue_date: 30-03-2023
+              note: abc
+              project_id: 1
+              rotation: monthly
+              send_status: 0
+              show_shipping_address: "no"
+              status: active
+              sub_total: 500
+              total: 500
+              unit_id: 1
+      responses:
+        "200":
+          description: ""
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+  /v3/categories:
+    get:
+      tags:
+        - KnowledgeBase
+        - Category
+      summary: categories
+      description: categories
+      operationId: categories
+      responses:
+        "200":
+          description: ""
+    post:
+      tags:
+        - KnowledgeBase
+        - Category
+      summary: categories
+      description: categories
+      operationId: categories1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: dev
+            example:
+              name: dev
+      responses:
+        "200":
+          description: ""
+  /v3/categories/{id}:
+    put:
+      tags:
+        - KnowledgeBase
+        - Category
+      summary: categories/{id}
+      description: categories/{id}
+      operationId: categoriesId
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: dev
+            example:
+              name: dev
+      responses:
+        "200":
+          description: ""
+    delete:
+      tags:
+        - KnowledgeBase
+        - Category
+      summary: categories/{id}
+      description: categories/{id}
+      operationId: categoriesId1
+      responses:
+        "200":
+          description: ""
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+  /knowledgebases:
+    get:
+      tags:
+        - KnowledgeBase
+      summary: knowledgebases
+      description: knowledgebases
+      operationId: knowledgebases
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: string
+          description: "10"
+        - name: search
+          in: query
+          schema:
+            type: string
+          description: string
+        - name: date_from
+          in: query
+          schema:
+            type: string
+          description: date
+        - name: date_to
+          in: query
+          schema:
+            type: string
+          description: date
+        - name: sort
+          in: query
+          schema:
+            type: string
+          description: asc desc
+        - name: sortBy
+          in: query
+          schema:
+            type: string
+          description: id
+        - name: category
+          in: query
+          schema:
+            type: string
+          description: integer
+        - name: view
+          in: query
+          schema:
+            type: string
+          description: employee
+      responses:
+        "200":
+          description: ""
+    post:
+      tags:
+        - KnowledgeBase
+      summary: knowledgebases
+      description: knowledgebases
+      operationId: knowledgebases1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                category_id:
+                  type: number
+                  example: 1
+                description:
+                  type: string
+                  example: abc
+                external_link:
+                  type: string
+                  example: google.com
+                heading:
+                  type: string
+                  example: test
+                to:
+                  type: string
+                  example: employee
+            example:
+              category_id: 1
+              description: abc
+              external_link: google.com
+              heading: test
+              to: employee
+      responses:
+        "200":
+          description: ""
+  /knowledgebases/{id}:
+    put:
+      tags:
+        - KnowledgeBase
+      summary: knowledgebases/{id}
+      description: knowledgebases/{id}
+      operationId: knowledgebasesId
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                category_id:
+                  type: number
+                  example: 1
+                description:
+                  type: string
+                  example: abc
+                external_link:
+                  type: string
+                  example: google.com
+                heading:
+                  type: string
+                  example: test
+                to:
+                  type: string
+                  example: employee
+            example:
+              category_id: 1
+              description: abc
+              external_link: google.com
+              heading: test
+              to: employee
+      responses:
+        "200":
+          description: ""
+    delete:
+      tags:
+        - KnowledgeBase
+      summary: knowledgebases/{id}
+      description: knowledgebases/{id}
+      operationId: knowledgebasesId1
+      responses:
+        "200":
+          description: ""
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+  /languages:
+    get:
+      tags:
+        - Languages
+      summary: /languages
+      description: /languages
+      operationId: languages
+      parameters:
+        - name: search
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+  /v3/lead-agents:
+    get:
+      tags:
+        - Leads
+        - Lead Agents
+      summary: lead-agents
+      description: lead-agents
+      operationId: leadAgents
+      responses:
+        "200":
+          description: ""
+    post:
+      tags:
+        - Leads
+        - Lead Agents
+      summary: lead-agents
+      description: lead-agents
+      operationId: leadAgents1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  example: enabled
+                user_id:
+                  type: number
+                  example: 2
+            example:
+              status: enabled
+              user_id: 2
+      responses:
+        "200":
+          description: ""
+  /v3/lead-agents/{id}:
+    put:
+      tags:
+        - Leads
+        - Lead Agents
+      summary: lead-agents/{id}
+      description: lead-agents/{id}
+      operationId: leadAgentsId
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  example: enabled
+                user_id:
+                  type: number
+                  example: 2
+            example:
+              status: enabled
+              user_id: 2
+      responses:
+        "200":
+          description: ""
+    delete:
+      tags:
+        - Leads
+        - Lead Agents
+      summary: lead-agents/{id}
+      description: lead-agents/{id}
+      operationId: leadAgentsId1
+      responses:
+        "200":
+          description: ""
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+  /v3/lead-sources:
+    get:
+      tags:
+        - Leads
+        - Lead Source
+      summary: lead-sources
+      description: lead-sources
+      operationId: leadSources
+      responses:
+        "200":
+          description: ""
+    post:
+      tags:
+        - Leads
+        - Lead Source
+      summary: lead-sources
+      description: lead-sources
+      operationId: leadSources1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: string
+                  example: api
+            example:
+              type: api
+      responses:
+        "200":
+          description: ""
+  /v3/lead-sources/{id}:
+    put:
+      tags:
+        - Leads
+        - Lead Source
+      summary: lead-sources/{id}
+      description: lead-sources/{id}
+      operationId: leadSourcesId1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: string
+                  example: api
+            example:
+              type: api
+      responses:
+        "200":
+          description: ""
+    delete:
+      tags:
+        - Leads
+        - Lead Source
+      summary: lead-sources/{id}
+      description: lead-sources/{id}
+      operationId: leadSourcesId
+      responses:
+        "200":
+          description: ""
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+  /v3/lead-categories:
+    get:
+      tags:
+        - Leads
+        - Lead Category
+      summary: lead-categories
+      description: lead-categories
+      operationId: leadCategories
+      responses:
+        "200":
+          description: ""
+    post:
+      tags:
+        - Leads
+        - Lead Category
+      summary: lead-categories
+      description: lead-categories
+      operationId: leadCategories1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                category_name:
+                  type: string
+                  example: test
+            example:
+              category_name: test
+      responses:
+        "200":
+          description: ""
+  /v3/lead-categories/{id}:
+    put:
+      tags:
+        - Leads
+        - Lead Category
+      summary: lead-categories/{id}
+      description: lead-categories/{id}
+      operationId: leadCategoriesId
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                category_name:
+                  type: string
+                  example: test
+            example:
+              category_name: test
+      responses:
+        "200":
+          description: ""
+    delete:
+      tags:
+        - Leads
+        - Lead Category
+      summary: lead-categories/{id}
+      description: lead-categories/{id}
+      operationId: leadCategoriesId1
+      responses:
+        "200":
+          description: ""
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+  /v3/lead-status:
+    get:
+      tags:
+        - Leads
+        - Lead Status
+      summary: lead-status
+      description: lead-status
+      operationId: leadStatus
+      responses:
+        "200":
+          description: ""
+    post:
+      tags:
+        - Leads
+        - Lead Status
+      summary: lead-status
+      description: lead-status
+      operationId: leadStatus1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                default:
+                  type: number
+                  example: 1
+                label_color:
+                  type: string
+                  example: "#fffff"
+                priority:
+                  type: number
+                  example: 1
+                type:
+                  type: string
+                  example: Active
+            example:
+              default: 1
+              label_color: "#fffff"
+              priority: 1
+              type: Active
+      responses:
+        "200":
+          description: ""
+  /v3/lead-status/{id}:
+    get:
+      tags:
+        - Leads
+        - Lead Status
+      summary: lead-status/{id}
+      description: lead-status/{id}
+      operationId: leadStatusId1
+      responses:
+        "200":
+          description: ""
+    put:
+      tags:
+        - Leads
+        - Lead Status
+      summary: lead-status/{id}
+      description: lead-status/{id}
+      operationId: leadStatusId
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                default:
+                  type: number
+                  example: 1
+                label_color:
+                  type: string
+                  example: "#fffff"
+                priority:
+                  type: number
+                  example: 1
+                type:
+                  type: string
+                  example: Active
+            example:
+              default: 1
+              label_color: "#fffff"
+              priority: 1
+              type: Active
+      responses:
+        "200":
+          description: ""
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+  /v3/leads:
+    post:
+      tags:
+        - Leads
+        - Lead Status
+      summary: leads
+      description: leads
+      operationId: leads
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                address:
+                  type: string
+                  example: HN
+                agent_id:
+                  type: number
+                  example: 1
+                category_id:
+                  type: number
+                  example: 1
+                city:
+                  type: string
+                  example: VN
+                client_email:
+                  type: string
+                  example: client@example.com
+                client_name:
+                  type: string
+                  example: client
+                company_name:
+                  type: string
+                  example: Client
+                country:
+                  type: string
+                  example: VN
+                currency_id:
+                  type: number
+                  example: 1
+                lead_value:
+                  type: string
+                  example: test
+                mobile:
+                  type: string
+                  example: "012345678"
+                next_follow_up:
+                  type: string
+                  example: "yes"
+                note:
+                  type: string
+                  example: test
+                postal_code:
+                  type: number
+                  example: 10000
+                source_id:
+                  type: number
+                  example: 1
+                state:
+                  type: string
+                  example: vn
+                status_id:
+                  type: number
+                  example: 1
+                website:
+                  type: string
+                  example: cloodo.com
+            example:
+              address: HN
+              agent_id: 1
+              category_id: 1
+              city: VN
+              client_email: client@example.com
+              client_name: client
+              company_name: Client
+              country: VN
+              currency_id: 1
+              lead_value: test
+              mobile: "012345678"
+              next_follow_up: "yes"
+              note: test
+              postal_code: 10000
+              source_id: 1
+              state: vn
+              status_id: 1
+              website: cloodo.com
+      responses:
+        "200":
+          description: ""
+  /leads:
+    get:
+      tags:
+        - Leads
+      summary: leads
+      description: leads
+      operationId: leads1
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: string
+          description: "10"
+        - name: agent_id
+          in: query
+          schema:
+            type: string
+          description: integer
+        - name: category_id
+          in: query
+          schema:
+            type: string
+          description: integer
+        - name: date_from
+          in: query
+          schema:
+            type: string
+          description: date
+        - name: date_to
+          in: query
+          schema:
+            type: string
+          description: date
+        - name: search
+          in: query
+          schema:
+            type: string
+          description: string
+        - name: source_id
+          in: query
+          schema:
+            type: string
+          description: integer
+        - name: sort
+          in: query
+          schema:
+            type: string
+          description: asc desc
+        - name: sortBy
+          in: query
+          schema:
+            type: string
+          description: id
+        - name: status_id
+          in: query
+          schema:
+            type: string
+          description: integer
+        - name: type
+          in: query
+          schema:
+            type: string
+          description: integer
+      responses:
+        "200":
+          description: ""
+    post:
+      tags:
+        - Leads
+      summary: /leads
+      description: /leads
+      operationId: leads2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                address:
+                  type: string
+                  example: string
+                agent_id:
+                  type: string
+                  example: integer
+                category_id:
+                  type: string
+                  example: integer
+                city:
+                  type: string
+                  example: string
+                client_email:
+                  type: string
+                  example: required string
+                client_name:
+                  type: string
+                  example: required string
+                company_name:
+                  type: string
+                  example: string
+                country:
+                  type: string
+                  example: string
+                currency_id:
+                  type: string
+                  example: integer
+                mobile:
+                  type: string
+                  example: string
+                next_follow_up:
+                  type: string
+                  example: required string
+                note:
+                  type: string
+                  example: "123"
+                office_phone:
+                  type: string
+                  example: string
+                postal_code:
+                  type: string
+                  example: string
+                source_id:
+                  type: string
+                  example: integer
+                state:
+                  type: string
+                  example: string
+                status_id:
+                  type: string
+                  example: integer
+                value:
+                  type: string
+                  example: integer
+                website:
+                  type: string
+                  example: string
+            example:
+              address: string
+              agent_id: integer
+              category_id: integer
+              city: string
+              client_email: required string
+              client_name: required string
+              company_name: string
+              country: string
+              currency_id: integer
+              mobile: string
+              next_follow_up: required string
+              note: "123"
+              office_phone: string
+              postal_code: string
+              source_id: integer
+              state: string
+              status_id: integer
+              value: integer
+              website: string
+      responses:
+        "200":
+          description: ""
+  /leads/{id}:
+    put:
+      tags:
+        - Leads
+      summary: /leads/{id}
+      description: /leads/{id}
+      operationId: leadsId
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                address:
+                  type: string
+                  example: string
+                agent_id:
+                  type: string
+                  example: integer
+                category_id:
+                  type: string
+                  example: integer
+                city:
+                  type: string
+                  example: string
+                client_email:
+                  type: string
+                  example: required string
+                client_name:
+                  type: string
+                  example: required string
+                company_name:
+                  type: string
+                  example: string
+                country:
+                  type: string
+                  example: string
+                currency_id:
+                  type: string
+                  example: integer
+                mobile:
+                  type: string
+                  example: string
+                next_follow_up:
+                  type: string
+                  example: required string
+                note:
+                  type: string
+                  example: "123"
+                office_phone:
+                  type: string
+                  example: string
+                postal_code:
+                  type: string
+                  example: string
+                source_id:
+                  type: string
+                  example: integer
+                state:
+                  type: string
+                  example: string
+                status_id:
+                  type: string
+                  example: integer
+                value:
+                  type: string
+                  example: integer
+                website:
+                  type: string
+                  example: string
+            example:
+              address: string
+              agent_id: integer
+              category_id: integer
+              city: string
+              client_email: required string
+              client_name: required string
+              company_name: string
+              country: string
+              currency_id: integer
+              mobile: string
+              next_follow_up: required string
+              note: "123"
+              office_phone: string
+              postal_code: string
+              source_id: integer
+              state: string
+              status_id: integer
+              value: integer
+              website: string
+      responses:
+        "200":
+          description: ""
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+  /v3/leave-types:
+    get:
+      tags:
+        - Leaves
+        - Leave Type
+      summary: /leave-types
+      description: /leave-types
+      operationId: leaveTypes
+      responses:
+        "200":
+          description: ""
+    post:
+      tags:
+        - Leaves
+        - Leave Type
+      summary: /leave-types
+      description: /leave-types
+      operationId: leaveTypes1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                color:
+                  type: string
+                  example: "#fffff"
+                type_name:
+                  type: string
+                  example: Product
+            example:
+              color: "#fffff"
+              type_name: Product
+      responses:
+        "200":
+          description: ""
+  /v3/leave-types/{id}:
+    put:
+      tags:
+        - Leaves
+        - Leave Type
+      summary: /leave-types/{id}
+      description: /leave-types/{id}
+      operationId: leaveTypesId
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                color:
+                  type: string
+                  example: "#fffff"
+                type_name:
+                  type: string
+                  example: Product
+            example:
+              color: "#fffff"
+              type_name: Product
+      responses:
+        "200":
+          description: ""
+    delete:
+      tags:
+        - Leaves
+        - Leave Type
+      summary: /leave-types/{id}
+      description: /leave-types/{id}
+      operationId: leaveTypesId1
+      responses:
+        "200":
+          description: ""
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+  /leaves:
+    get:
+      tags:
+        - Leaves
+      summary: /leaves
+      description: /leaves
+      operationId: leaves
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: string
+          description: "10"
+      responses:
+        "200":
+          description: ""
+    post:
+      tags:
+        - Leaves
+      summary: /leaves
+      description: /leaves
+      operationId: leaves1
+      requestBody:
+        content:
+          text/plain:
+            example: "{\r\n    \"user_id\": 12,\r\n    \"type_id\": 24,\r\n    // \"duration\": 'single', 'multiple', 'first_half', 'second_half',\r\n    // if duration = multiple => send multiple_date\r\n    // if duration = single, first_half, second_half => send leave_date\r\n    \"reason\": \"test\",\r\n    \"status\": \"pending\"\r\n}"
+      responses:
+        "200":
+          description: ""
+  /leaves/{id}:
+    put:
+      tags:
+        - Leaves
+      summary: /leaves/{id}
+      description: /leaves/{id}
+      operationId: leavesId
+      requestBody:
+        content:
+          text/plain:
+            example: "{\r\n    \"user_id\": 12,\r\n    \"type_id\": 24,\r\n    // \"duration\": 'single', 'multiple', 'first_half', 'second_half',\r\n    // if duration = multiple => send multiple_date\r\n    // if duration = single, first_half, second_half => send leave_date\r\n    \"reason\": \"test\",\r\n    \"status\": \"pending\"\r\n}"
+      responses:
+        "200":
+          description: ""
+    delete:
+      tags:
+        - Leaves
+      summary: /leaves/{id}
+      description: /leaves/{id}
+      operationId: leavesId1
+      responses:
+        "200":
+          description: ""
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+  /notices:
+    get:
+      tags:
+        - Notice
+      summary: notices
+      description: notices
+      operationId: notices
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: string
+          description: "10"
+        - name: sort
+          in: query
+          schema:
+            type: string
+          description: asc desc
+        - name: sortBy
+          in: query
+          schema:
+            type: string
+          description: id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                department_id:
+                  type: number
+                  example: 1
+                description:
+                  type: string
+                  example: hi
+                heading:
+                  type: string
+                  example: worksuite v2
+                to:
+                  type: string
+                  example: employee
+            example:
+              department_id: 1
+              description: hi
+              heading: worksuite v2
+              to: employee
+      responses:
+        "200":
+          description: ""
+    post:
+      tags:
+        - Notice
+      summary: notices
+      description: notices
+      operationId: notices1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                description:
+                  type: string
+                  example: hi
+                heading:
+                  type: string
+                  example: worksuite v2
+                team_id:
+                  type: number
+                  example: 1
+                to:
+                  type: string
+                  example: employee
+            example:
+              description: hi
+              heading: worksuite v2
+              team_id: 1
+              to: employee
+      responses:
+        "200":
+          description: ""
+  /notices/1:
+    get:
+      tags:
+        - Notice
+      summary: notices/{id}
+      description: notices/{id}
+      operationId: noticesId
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                department_id:
+                  type: number
+                  example: 1
+                description:
+                  type: string
+                  example: hi
+                heading:
+                  type: string
+                  example: worksuite v2
+                to:
+                  type: string
+                  example: employee
+            example:
+              department_id: 1
+              description: hi
+              heading: worksuite v2
+              to: employee
+      responses:
+        "200":
+          description: ""
+    put:
+      tags:
+        - Notice
+      summary: notices/{id}
+      description: notices/{id}
+      operationId: noticesId1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                description:
+                  type: string
+                  example: hi
+                heading:
+                  type: string
+                  example: worksuite v2
+                team_id:
+                  type: number
+                  example: 1
+                to:
+                  type: string
+                  example: employee
+            example:
+              description: hi
+              heading: worksuite v2
+              team_id: 1
+              to: employee
+      responses:
+        "200":
+          description: ""
+    delete:
+      tags:
+        - Notice
+      summary: notices/{id}
+      description: notices/{id}
+      operationId: noticesId2
+      responses:
+        "200":
+          description: ""
+  /payments:
+    get:
+      tags:
+        - Payments
+      summary: /payments
+      description: /payments
+      operationId: payments
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: string
+          description: "10"
+      responses:
+        "200":
+          description: ""
+    post:
+      tags:
+        - Payments
+      summary: payments
+      description: payments
+      operationId: payments1
+      requestBody:
+        content:
+          text/plain:
+            example: "{\r\n    \"project_id\": 1,\r\n    \"invoice_id\": 6,\r\n    \"order_id\": \"1\",\r\n    \"amount\": 500,\r\n    \"gateway\": \"offline\",\r\n    \"currency_id\": 29,\r\n    \"exchange_rate\": 1,\r\n    \"status\": \"pending\", // 'complete', 'pending', 'failed'\r\n    \"paid_on\": \"30-01-2023\",\r\n    \"remarks\": \"anc\",\r\n    \"transaction_id\": \"bcbancn\",\r\n    \"bank_accountus_id\": 1,\r\n    \"credit_note_id\": 1,\r\n    \"plan_id\": 1,\r\n    \"customer_id\": 1,\r\n    \"offline_method_id\": 1,\r\n    \"bill\": \"filename\"\r\n}"
+      responses:
+        "200":
+          description: ""
+  /payments/{id}:
+    put:
+      tags:
+        - Payments
+      summary: payments/{id}
+      description: payments/{id}
+      operationId: paymentsId
+      requestBody:
+        content:
+          text/plain:
+            example: "{\r\n    \"project_id\": 1,\r\n    \"invoice_id\": 6,\r\n    \"order_id\": \"1\",\r\n    \"amount\": 500,\r\n    \"gateway\": \"offline\",\r\n    \"currency_id\": 29,\r\n    \"exchange_rate\": 1,\r\n    \"status\": \"pending\", // 'complete', 'pending', 'failed'\r\n    \"paid_on\": \"30-01-2023\",\r\n    \"remarks\": \"anc\",\r\n    \"transaction_id\": \"bcbancn\",\r\n    \"bank_accountus_id\": 1,\r\n    \"credit_note_id\": 1,\r\n    \"plan_id\": 1,\r\n    \"customer_id\": 1,\r\n    \"offline_method_id\": 1,\r\n    \"bill\": \"filename\"\r\n}"
+      responses:
+        "200":
+          description: ""
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+  /products:
+    get:
+      tags:
+        - Products
+      summary: products
+      description: products
+      operationId: products
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: string
+          description: "10"
+      responses:
+        "200":
+          description: ""
+    post:
+      tags:
+        - Products
+      summary: products
+      description: products
+      operationId: products1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                allow_purchase:
+                  type: number
+                  example: 0
+                category_id:
+                  type: number
+                  example: 1
+                default_image:
+                  type: string
+                  example: google.com
+                description:
+                  type: string
+                  example: Product
+                downloadable:
+                  type: number
+                  example: 0
+                hsn_sac_code:
+                  type: string
+                  example: "#30dsd"
+                name:
+                  type: string
+                  example: Product 1
+                price:
+                  type: string
+                  example: "100"
+                sub_category_id:
+                  type: number
+                  example: 1
+                taxes:
+                  type: array
+                  items:
+                    type: number
+                    example: 100
+                  example:
+                    - 100
+                    - 200
+                unit_id:
+                  type: number
+                  example: 1
+            example:
+              allow_purchase: 0
+              category_id: 1
+              default_image: google.com
+              description: Product
+              downloadable: 0
+              hsn_sac_code: "#30dsd"
+              name: Product 1
+              price: "100"
+              sub_category_id: 1
+              taxes:
+                - 100
+                - 200
+              unit_id: 1
+      responses:
+        "200":
+          description: ""
+  /products/{id}:
+    get:
+      tags:
+        - Products
+      summary: /product/{id}
+      description: /product/{id}
+      operationId: productId
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                allow_purchase:
+                  type: number
+                  example: 0
+                category_id:
+                  type: number
+                  example: 1
+                default_image:
+                  type: string
+                  example: google.com
+                description:
+                  type: string
+                  example: Product
+                downloadable:
+                  type: number
+                  example: 0
+                hsn_sac_code:
+                  type: string
+                  example: "#30dsd"
+                name:
+                  type: string
+                  example: Product 1
+                price:
+                  type: string
+                  example: "100"
+                sub_category_id:
+                  type: number
+                  example: 1
+                taxes:
+                  type: array
+                  items:
+                    type: number
+                    example: 100
+                  example:
+                    - 100
+                    - 200
+                unit_id:
+                  type: number
+                  example: 1
+            example:
+              allow_purchase: 0
+              category_id: 1
+              default_image: google.com
+              description: Product
+              downloadable: 0
+              hsn_sac_code: "#30dsd"
+              name: Product 1
+              price: "100"
+              sub_category_id: 1
+              taxes:
+                - 100
+                - 200
+              unit_id: 1
+      responses:
+        "200":
+          description: ""
+    put:
+      tags:
+        - Products
+      summary: products/{id}
+      description: products/{id}
+      operationId: productsId
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                allow_purchase:
+                  type: number
+                  example: 0
+                category_id:
+                  type: number
+                  example: 1
+                default_image:
+                  type: string
+                  example: google.com
+                description:
+                  type: string
+                  example: Product
+                downloadable:
+                  type: number
+                  example: 0
+                hsn_sac_code:
+                  type: string
+                  example: "#30dsd"
+                name:
+                  type: string
+                  example: Product 1
+                price:
+                  type: string
+                  example: "100"
+                sub_category_id:
+                  type: number
+                  example: 1
+                taxes:
+                  type: array
+                  items:
+                    type: number
+                    example: 100
+                  example:
+                    - 100
+                    - 200
+                unit_id:
+                  type: number
+                  example: 1
+            example:
+              allow_purchase: 0
+              category_id: 1
+              default_image: google.com
+              description: Product
+              downloadable: 0
+              hsn_sac_code: "#30dsd"
+              name: Product 1
+              price: "100"
+              sub_category_id: 1
+              taxes:
+                - 100
+                - 200
+              unit_id: 1
+      responses:
+        "200":
+          description: ""
+    delete:
+      tags:
+        - Products
+      summary: /product/{id}
+      description: /product/{id}
+      operationId: productId1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                allow_purchase:
+                  type: number
+                  example: 0
+                category_id:
+                  type: number
+                  example: 1
+                default_image:
+                  type: string
+                  example: google.com
+                description:
+                  type: string
+                  example: Product
+                downloadable:
+                  type: number
+                  example: 0
+                hsn_sac_code:
+                  type: string
+                  example: "#30dsd"
+                name:
+                  type: string
+                  example: Product 1
+                price:
+                  type: string
+                  example: "100"
+                sub_category_id:
+                  type: number
+                  example: 1
+                taxes:
+                  type: array
+                  items:
+                    type: number
+                    example: 100
+                  example:
+                    - 100
+                    - 200
+                unit_id:
+                  type: number
+                  example: 1
+            example:
+              allow_purchase: 0
+              category_id: 1
+              default_image: google.com
+              description: Product
+              downloadable: 0
+              hsn_sac_code: "#30dsd"
+              name: Product 1
+              price: "100"
+              sub_category_id: 1
+              taxes:
+                - 100
+                - 200
+              unit_id: 1
+      responses:
+        "200":
+          description: ""
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+  /v3/projects:
+    get:
+      tags:
+        - Projects
+      summary: projects
+      description: projects
+      operationId: projects
+      responses:
+        "200":
+          description: ""
+  /api/v3/projects/15:
+    get:
+      tags:
+        - Projects
+      summary: /projects
+      description: /projects
+      operationId: projects1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                category_id:
+                  type: number
+                  example: 1
+                client_id:
+                  type: number
+                  example: 10
+                deadline:
+                  type: string
+                  example: 05-04-2023
+                notes:
+                  type: string
+                  example: project
+                project_name:
+                  type: string
+                  example: abcba
+                project_short_code:
+                  type: string
+                  example: abcna
+                project_summary:
+                  type: string
+                  example: abc
+                start_date:
+                  type: string
+                  example: 31-03-2023
+                status:
+                  type: string
+                  example: in progress
+                team_id:
+                  type: number
+                  example: 2
+                user_id:
+                  type: array
+                  items:
+                    type: string
+                    example: "11"
+                  example:
+                    - "11"
+                    - "12"
+            example:
+              category_id: 1
+              client_id: 10
+              deadline: 05-04-2023
+              notes: project
+              project_name: abcba
+              project_short_code: abcna
+              project_summary: abc
+              start_date: 31-03-2023
+              status: in progress
+              team_id: 2
+              user_id:
+                - "11"
+                - "12"
+      responses:
+        "200":
+          description: ""
+  /projects:
+    post:
+      tags:
+        - Projects
+      summary: projects
+      description: projects
+      operationId: projects2
+      requestBody:
+        content:
+          text/plain:
+            example: "{\r\n    \"project_name\": \"required, sting\",\r\n    \"project_short_code\": \"required, string\",\r\n    \"project_summary\": \"sting, nullable\",\r\n    \"project_admin\": \"integer, nullable\",\r\n    \"start_date\": \"date, required\",\r\n    \"deadline\": \"nullable, date\",\r\n    \"notes\": \"string, nullable\",\r\n    \"category_id\": \"integer, nullable\",\r\n    \"client_id\": \"integer, nullable\",\r\n    \"team_id\": \"integer, nullable\",\r\n    \"feedback\": \"string, nullable\",\r\n    \"manual_timelog\": \"string, nullable\", // ('enable','disable')\r\n    \"client_view_task\": \"string, nullable\", // ('enable','disable')\r\n    \"allow_client_notification\": \"string, nullable\", // ('enable','disable')\r\n    \"completion_percent\": \"required, integer\",\r\n    \"calculate_task_progress\": \"boolean\",\r\n    \"project_budget\": \"numeric, nullable\",\r\n    \"currency_id\": \"required, integer\",\r\n    \"hours_allocated\": \"numeric, nullable\",\r\n    \"status\": \"string, required\", // 'not started', 'in progress', 'on hold', 'canceled', 'finished', 'under review'\r\n    \"public\": \"boolean\",\r\n    \"enable_microboard\": \"boolean\", // if enable_microboard = true, client_access with required\r\n    \"miro_board_id\": \"boolean\",\r\n    \"client_access\": \"nullable, boolean\",\r\n    \"user_id\": \"array\",\r\n    \"project_file\": [\r\n        {\r\n        \"file_name\": 123,\r\n        \"size\": 123,\r\n        \"external_link\": 123\r\n        \r\n        }\r\n    ]\r\n\r\n}"
+      responses:
+        "200":
+          description: ""
+  /projects/{id}:
+    put:
+      tags:
+        - Projects
+      summary: projects/{id}
+      description: projects/{id}
+      operationId: projectsId
+      requestBody:
+        content:
+          text/plain:
+            example: "{\r\n    \"project_name\": \"required, sting\",\r\n    \"project_short_code\": \"required, string\",\r\n    \"project_summary\": \"sting, nullable\",\r\n    \"project_admin\": \"integer, nullable\",\r\n    \"start_date\": \"date, required\",\r\n    \"deadline\": \"nullable, date\",\r\n    \"notes\": \"string, nullable\",\r\n    \"category_id\": \"integer, nullable\",\r\n    \"client_id\": \"integer, nullable\",\r\n    \"team_id\": \"integer, nullable\",\r\n    \"feedback\": \"string, nullable\",\r\n    \"manual_timelog\": \"string, nullable\", // ('enable','disable')\r\n    \"client_view_task\": \"string, nullable\", // ('enable','disable')\r\n    \"allow_client_notification\": \"string, nullable\", // ('enable','disable')\r\n    \"completion_percent\": \"required, integer\",\r\n    \"calculate_task_progress\": \"boolean\",\r\n    \"project_budget\": \"numeric, nullable\",\r\n    \"currency_id\": \"required, integer\",\r\n    \"hours_allocated\": \"numeric, nullable\",\r\n    \"status\": \"string, required\", // 'not started', 'in progress', 'on hold', 'canceled', 'finished', 'under review'\r\n    \"public\": \"boolean\",\r\n    \"enable_microboard\": \"boolean\", // if enable_microboard = true, client_access with required\r\n    \"miro_board_id\": \"boolean\",\r\n    \"client_access\": \"nullable, boolean\",\r\n    \"user_id\": \"array\",\r\n        \"project_file\": [\r\n        {\r\n        \"file_name\": 123,\r\n        \"size\": 123,\r\n        \"external_link\": 123\r\n        \r\n        }\r\n    ]\r\n}"
+      responses:
+        "200":
+          description: ""
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+  /proposals:
+    get:
+      tags:
+        - Proposals
+      summary: /proposals
+      description: /proposals
+      operationId: proposals
+      parameters:
+        - name: lead_id
+          in: query
+          schema:
+            type: string
+          description: integer
+        - name: date_from
+          in: query
+          schema:
+            type: string
+          description: date
+        - name: date_to
+          in: query
+          schema:
+            type: string
+          description: date
+        - name: limit
+          in: query
+          schema:
+            type: string
+          description: integer
+        - name: sort
+          in: query
+          schema:
+            type: string
+          description: asc, desc
+        - name: sortBy
+          in: query
+          schema:
+            type: string
+          description: id
+        - name: status
+          in: query
+          schema:
+            type: string
+          description: string
+        - name: project_id
+          in: query
+          schema:
+            type: string
+          description: integer
+        - name: ticket_id
+          in: query
+          schema:
+            type: string
+          description: integer
+        - name: create_id
+          in: query
+          schema:
+            type: string
+          description: integer
+      responses:
+        "200":
+          description: ""
+    post:
+      tags:
+        - Proposals
+      summary: /proposals
+      description: /proposals
+      operationId: proposals1
+      requestBody:
+        content:
+          text/plain:
+            example: "{\r\n    \"lead_id\": \"1\",\r\n    \"valid_till\": \"date\",\r\n    \"sub_total\": \"numeric\",\r\n    \"total\": \"numeric\",\r\n    \"currency_id\": \"integer\",\r\n    \"discount_type\": \"string\", // percent, fixed\r\n    \"discount\": \"numeric\",\r\n    \"invoice_convert\": \"0\", // 0, 1\r\n    \"status\": \"string\",\r\n    \"note\": \"string\",\r\n    \"description\": \"string\",\r\n    \"client_comment\": \"string\",\r\n    \"signature_approval\": \"integer\",\r\n    \"calculate_tax\": \"string\", // after_discount, before_discount\r\n    \"tiket_id\": \"integer\",\r\n    \"agent_id\": \"integer\",\r\n    \"unit_id\": \"integer\",\r\n    \"project_items\": [\r\n        {\r\n            \"project_id\": \"integer\"\r\n        }\r\n    ],\r\n    \"milestone_items\": [\r\n        {\r\n            \"milestone_id\": \"integer\"\r\n        }\r\n    ],\r\n    \"proposal_items\": [\r\n        {\r\n            \"item_name\": \"string\",\r\n            \"item_summary\": \"string\",\r\n            \"quantity\": \"integer\",\r\n            \"unit_price\": \"numeric\",\r\n            \"amount\": \"numeric\",\r\n            \"tax_id\": \"integer\",\r\n            \"hsn_sac_code\": \"string\"\r\n        }\r\n    ]\r\n}"
+      responses:
+        "200":
+          description: ""
+  /proposals/{id}:
+    put:
+      tags:
+        - Proposals
+      summary: /proposals/{id}
+      description: /proposals/{id}
+      operationId: proposalsId
+      requestBody:
+        content:
+          text/plain:
+            example: "{\r\n    \"lead_id\": \"1\",\r\n    \"valid_till\": \"date\",\r\n    \"sub_total\": \"numeric\",\r\n    \"total\": \"numeric\",\r\n    \"currency_id\": \"integer\",\r\n    \"discount_type\": \"string\", // percent, fixed\r\n    \"discount\": \"numeric\",\r\n    \"invoice_convert\": \"0\", // 0, 1\r\n    \"status\": \"string\",\r\n    \"note\": \"string\",\r\n    \"description\": \"string\",\r\n    \"client_comment\": \"string\",\r\n    \"signature_approval\": \"integer\",\r\n    \"calculate_tax\": \"string\", // after_discount, before_discount\r\n    \"tiket_id\": \"integer\",\r\n    \"agent_id\": \"integer\",\r\n    \"unit_id\": \"integer\",\r\n    \"project_items\": [\r\n        {\r\n            \"project_id\": \"integer\"\r\n        }\r\n    ],\r\n    \"milestone_items\": [\r\n        {\r\n            \"milestone_id\": \"integer\"\r\n        }\r\n    ],\r\n    \"proposal_items\": [\r\n        {\r\n            \"item_name\": \"string\",\r\n            \"item_summary\": \"string\",\r\n            \"quantity\": \"integer\",\r\n            \"unit_price\": \"numeric\",\r\n            \"amount\": \"numeric\",\r\n            \"tax_id\": \"integer\",\r\n            \"hsn_sac_code\": \"string\"\r\n        }\r\n    ]\r\n}"
+      responses:
+        "200":
+          description: ""
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+  /tasks:
+    get:
+      tags:
+        - Task
+      summary: /tasks
+      description: /tasks
+      operationId: tasks
+      parameters:
+        - name: assigned_by
+          in: query
+          schema:
+            type: string
+          description: integer
+        - name: assigned_to
+          in: query
+          schema:
+            type: string
+          description: integer
+        - name: category
+          in: query
+          schema:
+            type: string
+          description: integer
+        - name: date_from
+          in: query
+          schema:
+            type: string
+          description: date
+        - name: date_to
+          in: query
+          schema:
+            type: string
+          description: date
+        - name: search
+          in: query
+          schema:
+            type: string
+          description: string
+        - name: limit
+          in: query
+          schema:
+            type: string
+          description: integer
+        - name: sort
+          in: query
+          schema:
+            type: string
+          description: asc desc
+        - name: sortBy
+          in: query
+          schema:
+            type: string
+          description: id
+        - name: label
+          in: query
+          schema:
+            type: string
+          description: integer
+        - name: status
+          in: query
+          schema:
+            type: string
+          description: integer
+        - name: project_milestones
+          in: query
+          schema:
+            type: string
+          description: integer
+      responses:
+        "200":
+          description: ""
+    post:
+      tags:
+        - Task
+      summary: /tasks
+      description: /tasks
+      operationId: tasks1
+      requestBody:
+        content:
+          text/plain:
+            example: "{\r\n    \"heading\": \"required string\",\r\n    \"description\": \"string\",\r\n    \"due_date\": \"datetime format\",\r\n    \"start_date\": \"datetime format\",\r\n    \"project_id\": \"integer\",\r\n    \"task_category_id\": \"integer\",\r\n    \"priority\": \"required string\", // low, medium, high\r\n    \"status\": \"required string\", // incomplete, completed\r\n    \"board_column_id\": \"integer\",\r\n    \"column_priority\": \"required integer\",\r\n    \"completed_on\": \"datetime format\",\r\n    \"recurring_task_id\": \"integer\",\r\n    \"dependent_task_id\": \"integer\",\r\n    \"milestone_id\": \"integer\",\r\n    \"is_private\": \"boolean\",\r\n    \"billable\": \"boolean\",\r\n    \"set_time_estimate\": \"boolean\", // if set estimate true => required estimate_hours, estimate_minutes\r\n    \"estimate_hours\": \"integer\",\r\n    \"estimate_minutes\": \"integer\",\r\n    \"repeat\": \"boolean\",\r\n    \"repeat_count\": \"integer\",\r\n    \"repeat_type\": \"string\",\r\n    \"repeat_cyles\": \"integer\",\r\n    \"without_duedate\": \"boolean\",\r\n    \"file_items\": [\r\n        {\r\n            \"external_link\": \"string\",\r\n            \"size\": \"string\",\r\n            \"file_name\": \"string\"\r\n        }\r\n    ],\r\n    \"custom_fields_data\": \"array\"\r\n}"
+      responses:
+        "200":
+          description: ""
+  /tasks/{id}:
+    get:
+      tags:
+        - Task
+      summary: /tasks/{id}
+      description: /tasks/{id}
+      operationId: tasksId
+      responses:
+        "200":
+          description: ""
+    put:
+      tags:
+        - Task
+      summary: /tasks/{id}
+      description: /tasks/{id}
+      operationId: tasksId1
+      requestBody:
+        content:
+          text/plain:
+            example: "{\r\n    \"heading\": \"required string\",\r\n    \"description\": \"string\",\r\n    \"due_date\": \"datetime format\",\r\n    \"start_date\": \"datetime format\",\r\n    \"project_id\": \"integer\",\r\n    \"task_category_id\": \"integer\",\r\n    \"priority\": \"required string\", // low, medium, high\r\n    \"status\": \"required string\", // incomplete, completed\r\n    \"board_column_id\": \"integer\",\r\n    \"column_priority\": \"required integer\",\r\n    \"completed_on\": \"datetime format\",\r\n    \"recurring_task_id\": \"integer\",\r\n    \"dependent_task_id\": \"integer\",\r\n    \"milestone_id\": \"integer\",\r\n    \"is_private\": \"boolean\",\r\n    \"billable\": \"boolean\",\r\n    \"set_time_estimate\": \"boolean\", // if set estimate true => required estimate_hours, estimate_minutes\r\n    \"estimate_hours\": \"integer\",\r\n    \"estimate_minutes\": \"integer\",\r\n    \"repeat\": \"boolean\",\r\n    \"repeat_count\": \"integer\",\r\n    \"repeat_type\": \"string\",\r\n    \"repeat_cyles\": \"integer\",\r\n    \"without_duedate\": \"boolean\",\r\n    \"file_items\": [\r\n        {\r\n            \"external_link\": \"string\",\r\n            \"size\": \"string\",\r\n            \"file_name\": \"string\"\r\n        }\r\n    ],\r\n    \"custom_fields_data\": \"array\"\r\n}"
+      responses:
+        "200":
+          description: ""
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
